@@ -26,6 +26,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(process.env.PORT, () => {
+server.listen(process.env.PORT || 5055, () => {
   console.log("Server running at http://127.0.0.1:5055");
 });
