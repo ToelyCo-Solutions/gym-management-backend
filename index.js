@@ -11,7 +11,7 @@ function corsMiddleware(req, res, next) {
 const server = http.createServer((req, res) => {
   if (req.url === "/") {
     corsMiddleware(req, res, () => {
-      res.end("i am backend");
+      res.end("i am a server side");
     });
   } else if (req.url === "/api" && req.method === "GET") {
     corsMiddleware(req, res, () => {
