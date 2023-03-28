@@ -1,5 +1,0 @@
-repos:
-  - repo: https://github.com/ToelyCo-Solutions/gym-management-backend
-    rev: v4.1.0
-    hooks:
-      - id: no-commit-to-branch

@@ -12,8 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "pre-commit": "^1.2.2"
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.21"
