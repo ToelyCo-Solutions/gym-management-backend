@@ -1,30 +1,46 @@
 const http = require("http");
 require("dotenv").config();
-
-function corsMiddleware(req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-}
+const {
+  addTrainee,
+  getAllTrainee,
+} = require("./controllers/traineeController");
 
 const server = http.createServer((req, res) => {
-  if (req.url === "/") {
-    corsMiddleware(req, res, () => {
-      res.write("i am a server side");
-      res.end();
-    });
-  } else if (req.url === "/api" && req.method === "GET") {
-    corsMiddleware(req, res, () => {
-      const data = { message: "Hello, world!" };
-      const jsonData = JSON.stringify(data);
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+  );
 
-      res.setHeader("Content-Type", "application/json");
-      res.end(jsonData);
-    });
-  } else {
+  if (req.method === "OPTIONS") {
+    // Preflight request
+    res.writeHead(204);
     res.end();
+    return;
   }
+
+  let body = "";
+  req
+    .on("data", (chunk) => {
+      body += chunk.toString();
+    })
+    .on("end", () => {
+      if (req.url === "/") {
+        res.write("App works properly");
+        res.end();
+      }
+      if (req.url === "/api/trainee/add" && req.method === "POST") {
+        addTrainee(res, body);
+      } else if (req.url === "/api/trainee/getall" && req.method === "GET") {
+        getAllTrainee(res);
+      }
+      // else {
+      //   res.writeHead(404, { "Content-Type": "application/json" });
+      //   res.write(JSON.stringify({ msg: "Not found" }));
+      //   res.end();
+      // }
+    });
 });
 
 server.listen(process.env.PORT, () => {
